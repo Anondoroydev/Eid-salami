@@ -138,13 +138,13 @@ export default function EidPage() {
 
         {/* Settings button */}
         <Button
-            variant="ghost"
-            size="icon"
-            className="bg-card/50 backdrop-blur-sm hover:bg-card text-foreground"
-            onClick={() => setShowSettings(true)}
-            title="সেটিংস"
-          >
-            <Settings className="h-5 w-5" />
+          variant="ghost"
+          size="icon"
+          className="bg-card/50 backdrop-blur-sm hover:bg-card text-foreground"
+          onClick={() => setShowSettings(true)}
+          title="সেটিংস"
+        >
+          <Settings className="h-5 w-5" />
         </Button>
       </div>
 
