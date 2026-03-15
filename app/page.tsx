@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic"; // prerendering skip
 
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -10,7 +11,6 @@ import { FloatingElements } from "@/components/floating-elements";
 import { Settings, Link2, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const dynamic = "force-dynamic"; // ✅ prerendering disable
 
 export interface PaymentInfo {
   bkash: string;
@@ -81,7 +81,7 @@ export default function EidPage() {
         const data = await res.json();
         id = data.id;
         setSavedLinkId(id);
-        localStorage.setItem("eid-link-id", id);
+        localStorage.setItem("eid-link-id", id );
       } catch (err) {
         console.error(err);
         return;
