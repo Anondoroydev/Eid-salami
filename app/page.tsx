@@ -1,8 +1,7 @@
 "use client";
-export const dynamic = "force-dynamic"; // prerendering skip
 
 import { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { EidHero } from "@/components/eid-hero";
 import { PaymentCards } from "@/components/payment-cards";
 import { SettingsModal } from "@/components/settings-modal";
@@ -10,7 +9,6 @@ import { CelebrationModal } from "@/components/celebration-modal";
 import { FloatingElements } from "@/components/floating-elements";
 import { Settings, Link2, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 
 export interface PaymentInfo {
   bkash: string;
@@ -20,7 +18,6 @@ export interface PaymentInfo {
 }
 
 export default function EidPage() {
-  const searchParams = useSearchParams();
   const router = useRouter();
 
   const [showSettings, setShowSettings] = useState(false);
@@ -35,7 +32,7 @@ export default function EidPage() {
     ownerName: "আপনার নাম",
   });
 
-  // ✅ client-only localStorage load
+  // Load saved data from localStorage
   useEffect(() => {
     const saved = localStorage.getItem("eid-payment-info");
     const savedId = localStorage.getItem("eid-link-id");
@@ -43,6 +40,7 @@ export default function EidPage() {
     if (savedId) setSavedLinkId(savedId);
   }, []);
 
+  // Save to localStorage and backend
   const handleSavePaymentInfo = async (info: PaymentInfo) => {
     setPaymentInfo(info);
     localStorage.setItem("eid-payment-info", JSON.stringify(info));
@@ -50,27 +48,28 @@ export default function EidPage() {
 
     setIsSaving(true);
     try {
-      const response = await fetch("/api/links", {
+      const res = await fetch("/api/links", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(info),
       });
-      if (response.ok) {
-        const data = await response.json();
+
+      if (res.ok) {
+        const data = await res.json();
         setSavedLinkId(data.id);
         localStorage.setItem("eid-link-id", data.id);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Failed to save to database:", err);
     } finally {
       setIsSaving(false);
     }
   };
 
+  // Copy link to clipboard
   const handleCopyLink = async () => {
-    let id = savedLinkId;
-
-    if (!id) {
+    if (!savedLinkId) {
+      // Save first if no link exists
       setIsSaving(true);
       try {
         const res = await fetch("/api/links", {
@@ -78,31 +77,40 @@ export default function EidPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(paymentInfo),
         });
-        const data = await res.json();
-        id = data.id;
-        setSavedLinkId(id);
-        localStorage.setItem("eid-link-id", id );
+        if (res.ok) {
+          const data = await res.json();
+          setSavedLinkId(data.id);
+          localStorage.setItem("eid-link-id", data.id);
+
+          const link = `${window.location.origin}/s/${data.id}`;
+          await navigator.clipboard.writeText(link);
+          setLinkCopied(true);
+          setTimeout(() => setLinkCopied(false), 2000);
+        }
       } catch (err) {
-        console.error(err);
-        return;
+        console.error("Failed to save:", err);
       } finally {
         setIsSaving(false);
       }
+      return;
     }
 
-    const link = `${window.location.origin}/s/${id}`;
+    const link = `${window.location.origin}/s/${savedLinkId}`;
     await navigator.clipboard.writeText(link);
     setLinkCopied(true);
     setTimeout(() => setLinkCopied(false), 2000);
   };
 
-  const handlePaymentClick = () => setShowCelebration(true);
+  const handlePaymentClick = () => {
+    setShowCelebration(true);
+  };
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-background">
+      {/* Floating decorative elements */}
       <FloatingElements />
 
-      {/* Top buttons */}
+      {/* Top-right buttons */}
       <div className="fixed top-4 right-4 z-50 flex gap-2">
         <Button
           variant="ghost"
@@ -132,12 +140,14 @@ export default function EidPage() {
         </Button>
       </div>
 
+      {/* Copy notification */}
       {linkCopied && (
         <div className="fixed top-16 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-in fade-in slide-in-from-top-2 text-sm font-medium">
           লিংক কপি হয়েছে! এখন শেয়ার করুন
         </div>
       )}
 
+      {/* Main content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-12">
         <EidHero ownerName={paymentInfo.ownerName} />
         <PaymentCards
@@ -146,13 +156,13 @@ export default function EidPage() {
         />
       </div>
 
+      {/* Modals */}
       <SettingsModal
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
         paymentInfo={paymentInfo}
         onSave={handleSavePaymentInfo}
       />
-
       <CelebrationModal
         isOpen={showCelebration}
         onClose={() => setShowCelebration(false)}
