@@ -49,7 +49,7 @@ export default function EidPage() {
     setPaymentInfo(info);
     localStorage.setItem("eid-payment-info", JSON.stringify(info));
     setShowSettings(false);
-    
+
     // Save to database and get link ID
     setIsSaving(true);
     try {
@@ -58,7 +58,7 @@ export default function EidPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(info),
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         setSavedLinkId(data.id);
@@ -82,12 +82,12 @@ export default function EidPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(paymentInfo),
         });
-        
+
         if (response.ok) {
           const data = await response.json();
           setSavedLinkId(data.id);
           localStorage.setItem("eid-link-id", data.id);
-          
+
           const link = `${window.location.origin}/s/${data.id}`;
           await navigator.clipboard.writeText(link);
           setLinkCopied(true);
@@ -100,7 +100,7 @@ export default function EidPage() {
       }
       return;
     }
-    
+
     const link = `${window.location.origin}/s/${savedLinkId}`;
     await navigator.clipboard.writeText(link);
     setLinkCopied(true);
@@ -135,7 +135,7 @@ export default function EidPage() {
             <Link2 className="h-5 w-5" />
           )}
         </Button>
-        
+
         {/* Settings button */}
         <Button
             variant="ghost"
@@ -147,7 +147,7 @@ export default function EidPage() {
             <Settings className="h-5 w-5" />
         </Button>
       </div>
-      
+
       {/* Link copied notification */}
       {linkCopied && (
         <div className="fixed top-16 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-in fade-in slide-in-from-top-2 text-sm font-medium">
