@@ -190,3 +190,5 @@ export default function EidPage() {
     </main>
   );
 }
+
+export const dynamic = "force-dynamic";
