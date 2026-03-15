@@ -9,7 +9,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://localhost:3000'),
   title: 'ঈদ মোবারক | Eid Mubarak',
-  description: 'ঈদের শুভেচ্ছা জানান প্রিয়জনদের - বিকাশ, নগদ, রকেট দিয়ে ঈদি পাঠান',
+  description: 'ঈদের শুভেচ্ছা জানান প্রিয়জনদের -- বিকাশ, নগদ, রকেট দিয়ে ঈদি পাঠান',
   generator:'Anondo Ray'
 }
 
