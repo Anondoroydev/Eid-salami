@@ -10,24 +10,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://localhost:3000'),
   title: 'ঈদ মোবারক | Eid Mubarak',
   description: 'ঈদের শুভেচ্ছা জানান প্রিয়জনদের - বিকাশ, নগদ, রকেট দিয়ে ঈদি পাঠান',
-  generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
+  generator:'Anondo Ray'
 }
 
 export default function RootLayout({
