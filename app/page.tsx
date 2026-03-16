@@ -1,13 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { EidHero } from "@/components/eid-hero";
 import { PaymentCards } from "@/components/payment-cards";
 import { SettingsModal } from "@/components/settings-modal";
-import { CelebrationModal } from "@/components/celebration-modal";
-import { FloatingElements } from "@/components/floating-elements";
-import { Settings, Link2, Check, Loader2 } from "lucide-react";
+import { IslamicBackground } from "@/components/islamic-background";
+import { Settings, Share2, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export interface PaymentInfo {
@@ -15,124 +13,167 @@ export interface PaymentInfo {
   nagad: string;
   rocket: string;
   ownerName: string;
+  bkashQR?: string;
+  nagadQR?: string;
+  rocketQR?: string;
 }
 
 export default function EidPage() {
-  const router = useRouter();
-
   const [showSettings, setShowSettings] = useState(false);
-  const [showCelebration, setShowCelebration] = useState(false);
-  const [linkCopied, setLinkCopied] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [savedLinkId, setSavedLinkId] = useState<string | null>(null);
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
     bkash: "01XXXXXXXXX",
     nagad: "01XXXXXXXXX",
     rocket: "01XXXXXXXXX",
     ownerName: "আপনার নাম",
   });
+  const [linkCopied, setLinkCopied] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
+  const [savedSlug, setSavedSlug] = useState<string | null>(null);
 
-  // Load saved data from localStorage
   useEffect(() => {
     const saved = localStorage.getItem("eid-payment-info");
-    const savedId = localStorage.getItem("eid-link-id");
-    if (saved) setPaymentInfo(JSON.parse(saved));
-    if (savedId) setSavedLinkId(savedId);
+    const slug = localStorage.getItem("eid-payment-slug");
+    if (saved) {
+      setPaymentInfo(JSON.parse(saved));
+    }
+    if (slug) {
+      setSavedSlug(slug);
+    }
   }, []);
 
-  // Save to localStorage and backend
   const handleSavePaymentInfo = async (info: PaymentInfo) => {
     setPaymentInfo(info);
     localStorage.setItem("eid-payment-info", JSON.stringify(info));
+    // Clear saved slug so a new one will be generated on share
+    localStorage.removeItem("eid-payment-slug");
+    setSavedSlug(null);
     setShowSettings(false);
+  };
 
-    setIsSaving(true);
+  const handleShareLink = async () => {
+    setIsSharing(true);
+    
     try {
-      const res = await fetch("/api/links", {
+      // Save to Supabase and get the slug
+      const response = await fetch("/api/payment-profile", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(info),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ownerName: paymentInfo.ownerName,
+          bkash: paymentInfo.bkash,
+          nagad: paymentInfo.nagad,
+          rocket: paymentInfo.rocket,
+          bkashQR: paymentInfo.bkashQR,
+          nagadQR: paymentInfo.nagadQR,
+          rocketQR: paymentInfo.rocketQR,
+        }),
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        setSavedLinkId(data.id);
-        localStorage.setItem("eid-link-id", data.id);
+      if (!response.ok) {
+        throw new Error("Failed to save profile");
       }
-    } catch (err) {
-      console.error("Failed to save to database:", err);
-    } finally {
-      setIsSaving(false);
-    }
-  };
 
-  // Copy link to clipboard
-  const handleCopyLink = async () => {
-    if (!savedLinkId) {
-      // Save first if no link exists
-      setIsSaving(true);
+      const data = await response.json();
+      const slug = data.slug;
+      
+      // Save slug locally
+      localStorage.setItem("eid-payment-slug", slug);
+      setSavedSlug(slug);
+      
+      // Create shareable link
+      const shareUrl = `${window.location.origin}/p/${slug}`;
+      
+      await navigator.clipboard.writeText(shareUrl);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    } catch (error) {
+      console.error("Failed to share:", error);
+      // Fallback to old method if Supabase fails
+      const shareData = {
+        bkash: paymentInfo.bkash,
+        nagad: paymentInfo.nagad,
+        rocket: paymentInfo.rocket,
+        name: paymentInfo.ownerName,
+      };
+      const encodedData = btoa(encodeURIComponent(JSON.stringify(shareData)));
+      const shareUrl = `${window.location.origin}?data=${encodedData}`;
+      
       try {
-        const res = await fetch("/api/links", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(paymentInfo),
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setSavedLinkId(data.id);
-          localStorage.setItem("eid-link-id", data.id);
-
-          const link = `${window.location.origin}/s/${data.id}`;
-          await navigator.clipboard.writeText(link);
-          setLinkCopied(true);
-          setTimeout(() => setLinkCopied(false), 2000);
-        }
-      } catch (err) {
-        console.error("Failed to save:", err);
-      } finally {
-        setIsSaving(false);
+        await navigator.clipboard.writeText(shareUrl);
+        setLinkCopied(true);
+        setTimeout(() => setLinkCopied(false), 2000);
+      } catch {
+        const textArea = document.createElement("textarea");
+        textArea.value = shareUrl;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        setLinkCopied(true);
+        setTimeout(() => setLinkCopied(false), 2000);
       }
-      return;
+    } finally {
+      setIsSharing(false);
     }
-
-    const link = `${window.location.origin}/s/${savedLinkId}`;
-    await navigator.clipboard.writeText(link);
-    setLinkCopied(true);
-    setTimeout(() => setLinkCopied(false), 2000);
   };
 
-  const handlePaymentClick = () => {
-    setShowCelebration(true);
-  };
+  // Load shared data from URL on mount (for backwards compatibility)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const data = params.get("data");
+    if (data) {
+      try {
+        const decoded = JSON.parse(decodeURIComponent(atob(data)));
+        if (decoded.bkash && decoded.nagad && decoded.rocket && decoded.name) {
+          setPaymentInfo({
+            bkash: decoded.bkash,
+            nagad: decoded.nagad,
+            rocket: decoded.rocket,
+            ownerName: decoded.name,
+          });
+        }
+      } catch {
+        console.error("Failed to parse shared data");
+      }
+    }
+  }, []);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-background">
-      {/* Floating decorative elements */}
-      <FloatingElements />
+    <main className="relative h-screen overflow-hidden">
+      {/* Islamic Animated Background with Real Image */}
+      <IslamicBackground />
 
-      {/* Top-right buttons */}
-      <div className="fixed top-4 right-4 z-50 flex gap-2">
+      {/* Top Right Buttons - Share Link & Settings */}
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+        {/* Share Link Button */}
         <Button
           variant="ghost"
           size="icon"
-          className="bg-card/50 backdrop-blur-sm hover:bg-card text-foreground"
-          onClick={handleCopyLink}
-          disabled={isSaving}
-          title="লিংক কপি করুন"
+          className={`h-10 w-10 backdrop-blur-md border shadow-lg transition-all duration-300 hover:scale-105 ${
+            linkCopied 
+              ? 'bg-accent/20 border-accent/40 text-accent hover:bg-accent/30' 
+              : 'bg-card/50 hover:bg-card/80 text-foreground border-primary/20 hover:border-primary/40 hover:shadow-primary/20'
+          }`}
+          onClick={handleShareLink}
+          disabled={isSharing}
+          title={linkCopied ? "লিংক কপি হয়েছে!" : "লিংক শেয়ার করুন"}
         >
-          {isSaving ? (
+          {isSharing ? (
             <Loader2 className="h-5 w-5 animate-spin" />
           ) : linkCopied ? (
-            <Check className="h-5 w-5 text-green-500" />
+            <Check className="h-5 w-5 animate-scale-in" />
           ) : (
-            <Link2 className="h-5 w-5" />
+            <Share2 className="h-5 w-5" />
           )}
         </Button>
 
+        {/* Settings Button */}
         <Button
           variant="ghost"
           size="icon"
-          className="bg-card/50 backdrop-blur-sm hover:bg-card text-foreground"
+          className="h-10 w-10 bg-card/50 backdrop-blur-md hover:bg-card/80 text-foreground border border-primary/20 shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:scale-105 hover:border-primary/40"
           onClick={() => setShowSettings(true)}
           title="সেটিংস"
         >
@@ -140,33 +181,29 @@ export default function EidPage() {
         </Button>
       </div>
 
-      {/* Copy notification */}
+      {/* Copy Success Toast */}
       {linkCopied && (
-        <div className="fixed top-16 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-in fade-in slide-in-from-top-2 text-sm font-medium">
-          লিংক কপি হয়েছে! এখন শেয়ার করুন
+        <div className="fixed top-16 right-4 z-50 animate-slide-up">
+          <div className="bg-accent/20 backdrop-blur-md border border-accent/30 rounded-lg px-4 py-2 text-accent text-sm font-medium shadow-lg">
+            লিংক কপি হয়েছে!
+          </div>
         </div>
       )}
 
-      {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-12">
-        <EidHero ownerName={paymentInfo.ownerName} />
-        <PaymentCards
-          paymentInfo={paymentInfo}
-          onPaymentClick={handlePaymentClick}
-        />
+      {/* Main Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 py-5">
+        <div className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center gap-6 md:gap-8 my-5">
+          <EidHero ownerName={paymentInfo.ownerName} />
+          <PaymentCards paymentInfo={paymentInfo} />
+        </div>
       </div>
 
-      {/* Modals */}
+      {/* Settings Modal */}
       <SettingsModal
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
         paymentInfo={paymentInfo}
         onSave={handleSavePaymentInfo}
-      />
-      <CelebrationModal
-        isOpen={showCelebration}
-        onClose={() => setShowCelebration(false)}
-        ownerName={paymentInfo.ownerName}
       />
     </main>
   );

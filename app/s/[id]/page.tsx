@@ -13,6 +13,8 @@ interface PaymentInfo {
   nagad: string;
   rocket: string;
   ownerName: string;
+  bkashLink?: string;
+  nagadLink?: string;
 }
 
 export default function SharedSalamiPage() {

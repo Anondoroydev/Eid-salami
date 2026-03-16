@@ -14,7 +14,7 @@ function generateId(length = 10): string {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { ownerName, bkash, nagad, rocket } = body;
+    const { ownerName, bkash, nagad, rocket, bkashLink, nagadLink } = body;
 
     if (!ownerName || !bkash) {
       return NextResponse.json(
@@ -34,6 +34,8 @@ export async function POST(request: NextRequest) {
         bkash,
         nagad: nagad || "",
         rocket: rocket || "",
+        bkash_link: bkashLink || "",
+        nagad_link: nagadLink || "",
       })
       .select()
       .single();
@@ -82,6 +84,8 @@ export async function GET(request: NextRequest) {
       bkash: data.bkash,
       nagad: data.nagad,
       rocket: data.rocket,
+      bkashLink: data.bkash_link || "",
+      nagadLink: data.nagad_link || "",
     });
   } catch (error) {
     console.error("API error:", error);
