@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Save, X, QrCode, Sparkles, User, Phone } from "lucide-react";
-import type { PaymentInfo } from "@/app/page";
+import type { PaymentInfo } from "@/lib/types";
 
 interface SettingsModalProps {
   isOpen: boolean;

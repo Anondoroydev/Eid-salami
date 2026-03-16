@@ -3,7 +3,7 @@
 import { EidHero } from "@/components/eid-hero";
 import { PaymentCards } from "@/components/payment-cards";
 import { IslamicBackground } from "@/components/islamic-background";
-import type { PaymentInfo } from "@/app/page";
+import type { PaymentInfo } from "@/lib/types";
 
 interface SharedPaymentViewProps {
   paymentInfo: PaymentInfo;

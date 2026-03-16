@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import { EidHero } from "@/components/eid-hero";
 import { PaymentCards } from "@/components/payment-cards";
 import { CelebrationModal } from "@/components/celebration-modal";
-import { FloatingElements } from "@/components/floating-elements";
+import { IslamicBackground } from "@/components/islamic-background";
 import { Loader2 } from "lucide-react";
 
 interface PaymentInfo {
@@ -51,7 +51,7 @@ export default function SharedSalamiPage() {
   if (isLoading) {
     return (
       <main className="relative min-h-screen overflow-hidden bg-background flex items-center justify-center">
-        <FloatingElements />
+        <IslamicBackground />
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="h-12 w-12 animate-spin text-primary" />
           <p className="text-foreground/70 text-lg">লোড হচ্ছে...</p>
@@ -63,7 +63,7 @@ export default function SharedSalamiPage() {
   if (error || !paymentInfo) {
     return (
       <main className="relative min-h-screen overflow-hidden bg-background flex items-center justify-center">
-        <FloatingElements />
+        <IslamicBackground />
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-2">দুঃখিত!</h1>
           <p className="text-foreground/70">{error || "লিংকটি পাওয়া যায়নি"}</p>
@@ -74,7 +74,7 @@ export default function SharedSalamiPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-background">
-      <FloatingElements />
+      <IslamicBackground />
 
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-12">
         <EidHero ownerName={paymentInfo.ownerName} />

@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import type { PaymentInfo } from "@/app/page";
+import type { PaymentInfo } from "@/lib/types";
 
 // Custom Payment Icons
 const BkashIcon = ({ className }: { className?: string }) => (

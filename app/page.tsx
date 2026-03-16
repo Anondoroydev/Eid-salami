@@ -7,16 +7,9 @@ import { SettingsModal } from "@/components/settings-modal";
 import { IslamicBackground } from "@/components/islamic-background";
 import { Settings, Share2, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { PaymentInfo } from "@/lib/types";
 
-export interface PaymentInfo {
-  bkash: string;
-  nagad: string;
-  rocket: string;
-  ownerName: string;
-  bkashQR?: string;
-  nagadQR?: string;
-  rocketQR?: string;
-}
+export type { PaymentInfo };
 
 export default function EidPage() {
   const [showSettings, setShowSettings] = useState(false);
