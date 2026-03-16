@@ -40,6 +40,14 @@ const UpayIcon = ({ className }: { className?: string }) => (
   <img src="upay.svg" alt="Upay" className={className} />
 );
 
+const UpayIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#00A651"/>
+    <path d="M12 6v6l4 2" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="2"/>
+  </svg>
+);
+
 interface PaymentCardsProps {
   paymentInfo: PaymentInfo;
 }
@@ -120,6 +128,25 @@ const paymentMethods = [
       "আপনার ইচ্ছামত পরিমাণ টাকা দিন",
       "PIN দিয়ে কনফার্ম করুন",
     ],
+  },
+  {
+    id: "upay",
+    name: "উপায়",
+    color: "from-[#00A651] to-[#007A3D]",
+    bgGradient: "from-[#00A651]/15 via-[#00A651]/5 to-transparent",
+    textColor: "text-[#00A651]",
+    borderColor: "border-[#00A651]/30",
+    glowColor: "rgba(0, 166, 81, 0.4)",
+    shadowColor: "shadow-[#00A651]/20",
+    logo: "Upay",
+    IconComponent: UpayIcon,
+    steps: [
+      "আপনার Upay অ্যাপ ওপেন করুন",
+      "\"সেন্ড মানি\" অপশনে ট্যাপ করুন",
+      "নিচের নম্বরটি দিন অথবা QR কোড স্ক্যান করুন",
+      "আপনার ইচ্ছামত পরিমাণ টাকা দিন",
+      "PIN দিয়ে কনফার্ম করুন"
+    ]
   },
 ];
 

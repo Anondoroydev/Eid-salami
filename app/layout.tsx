@@ -7,22 +7,28 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL || "https://localhost:3000",
-  ),
-  title: "ঈদ মোবারক | Eid Mubarak",
-  description:
-    "ঈদের শুভেচ্ছা জানান প্রিয়জনদের - বিকাশ, নগদ, রকেট দিয়ে ঈদি পাঠান",
-  generator: "Next.js",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://localhost:3000'),
+  title: 'ঈদ মোবারক | Eid Mubarak',
+  description: 'ঈদের শুভেচ্ছা জানান প্রিয়জনদের - বিকাশ, নগদ, রকেট দিয়ে ঈদি পাঠান',
+  generator: 'v0.app',
   icons: {
     icon: [
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      {
+        url: '/icon-light-32x32.png',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/icon-dark-32x32.png',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/icon.svg',
+        type: 'image/svg+xml',
+      },
     ],
-    apple: "/apple-icon.png",
+    apple: '/apple-icon.png',
   },
-};
+}
 
 export default function RootLayout({
   children,
