@@ -5,8 +5,8 @@ import { useParams } from "next/navigation";
 import { EidHero } from "@/components/eid-hero";
 import { PaymentCards } from "@/components/payment-cards";
 import { CelebrationModal } from "@/components/celebration-modal";
-import { FloatingElements } from "@/components/floating-elements";
 import { Loader2 } from "lucide-react";
+import { FloatingElements } from "@/components/floating-elements";
 
 interface PaymentInfo {
   bkash: string;
@@ -20,7 +20,7 @@ interface PaymentInfo {
 export default function SharedSalamiPage() {
   const params = useParams();
   const id = params.id as string;
-  
+
   const [showCelebration, setShowCelebration] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +42,7 @@ export default function SharedSalamiPage() {
         setIsLoading(false);
       }
     }
-    
+
     if (id) {
       fetchData();
     }

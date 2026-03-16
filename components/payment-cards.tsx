@@ -39,23 +39,7 @@ const RocketIcon = ({ className }: { className?: string }) => (
 const UpayIcon = ({ className }: { className?: string }) => (
   <img src="upay.svg" alt="Upay" className={className} />
 );
-
-const UpayIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#00A651"/>
-    <path d="M12 6v6l4 2" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="2"/>
-  </svg>
-);
-
-const UpayIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#00A651"/>
-    <path d="M12 6v6l4 2" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="2"/>
-  </svg>
-);
-
+ 
 interface PaymentCardsProps {
   paymentInfo: PaymentInfo;
 }
