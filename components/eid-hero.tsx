@@ -12,7 +12,7 @@ export function EidHero({ ownerName }: EidHeroProps) {
       {/* Main Content */}
       <div className="relative z-10">
         {/* Crescent Moon with Stars */}
-        <div className="flex items-center justify-center gap-3 mb-6">
+        <div className="flex items-center justify-center gap-3 mb-4">
           {/* Left Stars */}
           <div className="flex items-center gap-2">
             <Star 
@@ -58,15 +58,15 @@ export function EidHero({ ownerName }: EidHeroProps) {
         </div>
 
         {/* Arabic Greeting */}
-        <div className="mb-3 opacity-0 animate-slide-up fill-forwards" style={{ animationDelay: "0.1s" }}>
-          <h2 className="text-2xl md:text-3xl font-serif text-primary tracking-wider animate-golden-glow" dir="rtl" lang="ar" suppressHydrationWarning>
+        <div className="mb-2 opacity-0 animate-slide-up fill-forwards" style={{ animationDelay: "0.1s" }}>
+          <h2 className="text-xl md:text-2xl font-serif text-primary tracking-wider animate-golden-glow" dir="rtl" lang="ar" suppressHydrationWarning>
             {"\u0639\u064A\u062F \u0645\u0628\u0627\u0631\u0643"}
           </h2>
         </div>
 
         {/* Main Bengali Title */}
-        <div className="mb-3 opacity-0 animate-slide-up fill-forwards" style={{ animationDelay: "0.2s" }}>
-          <h1 className="text-5xl md:text-7xl font-black leading-tight">
+        <div className="mb-2 opacity-0 animate-slide-up fill-forwards" style={{ animationDelay: "0.2s" }}>
+          <h1 className="text-4xl md:text-6xl font-black leading-tight">
             <span className="bg-gradient-to-r from-primary via-foreground to-primary bg-[length:200%_100%] bg-clip-text text-transparent animate-shimmer-text">
               ঈদ মোবারক
             </span>
@@ -74,13 +74,13 @@ export function EidHero({ ownerName }: EidHeroProps) {
         </div>
 
         {/* Subtitle */}
-        <p className="text-sm md:text-base text-muted-foreground max-w-sm mx-auto mb-5 leading-relaxed opacity-0 animate-slide-up fill-forwards" style={{ animationDelay: "0.3s" }}>
+        <p className="text-xs md:text-sm text-muted-foreground max-w-sm mx-auto mb-3 leading-relaxed opacity-0 animate-slide-up fill-forwards" style={{ animationDelay: "0.3s" }}>
           সবাইকে ঈদের শুভেচ্ছা। আল্লাহ আপনার সব দোয়া কবুল করুন।
         </p>
 
         {/* Owner Name Card */}
         <div className="opacity-0 animate-scale-in fill-forwards" style={{ animationDelay: "0.4s" }}>
-          <div className="inline-flex flex-col items-center px-8 py-4 bg-card/60 backdrop-blur-xl rounded-2xl border border-primary/20 shadow-2xl shadow-primary/10 relative overflow-hidden group hover:border-primary/40 transition-all duration-500">
+          <div className="inline-flex flex-col items-center px-6 py-3 bg-card/60 backdrop-blur-xl rounded-2xl border border-primary/20 shadow-2xl shadow-primary/10 relative overflow-hidden group hover:border-primary/40 transition-all duration-500">
             {/* Shimmer Effect */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent animate-shimmer-gold" />
@@ -100,7 +100,7 @@ export function EidHero({ ownerName }: EidHeroProps) {
         </div>
 
         {/* Decorative Line */}
-        <div className="mt-6 flex items-center justify-center gap-3 opacity-0 animate-slide-up fill-forwards" style={{ animationDelay: "0.5s" }}>
+        <div className="mt-4 flex items-center justify-center gap-3 opacity-0 animate-slide-up fill-forwards" style={{ animationDelay: "0.5s" }}>
           <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-primary/50" />
           <Star className="h-3 w-3 text-primary/50" fill="currentColor" />
           <div className="h-[1px] w-16 bg-gradient-to-r from-primary/50 via-accent/50 to-primary/50" />

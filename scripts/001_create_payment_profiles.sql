@@ -16,11 +16,6 @@ CREATE TABLE IF NOT EXISTS public.payment_profiles (
 -- Enable Row Level Security
 ALTER TABLE public.payment_profiles ENABLE ROW LEVEL SECURITY;
 
--- Drop existing policies if they exist and recreate
-DROP POLICY IF EXISTS "payment_profiles_select_all" ON public.payment_profiles;
-DROP POLICY IF EXISTS "payment_profiles_insert_all" ON public.payment_profiles;
-DROP POLICY IF EXISTS "payment_profiles_update_all" ON public.payment_profiles;
-
 -- Allow anyone to read payment profiles (for sharing)
 CREATE POLICY "payment_profiles_select_all" ON public.payment_profiles 
   FOR SELECT USING (true);
