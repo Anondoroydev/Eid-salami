@@ -12,10 +12,12 @@ export interface PaymentInfo {
   bkash: string;
   nagad: string;
   rocket: string;
+  upay: string;
   ownerName: string;
   bkashQR?: string;
   nagadQR?: string;
   rocketQR?: string;
+  upayQR?: string;
 }
 
 export default function EidPage() {
@@ -24,121 +26,98 @@ export default function EidPage() {
     bkash: "01XXXXXXXXX",
     nagad: "01XXXXXXXXX",
     rocket: "01XXXXXXXXX",
+    upay: "01XXXXXXXXX",
     ownerName: "আপনার নাম",
   });
   const [linkCopied, setLinkCopied] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
-  const [savedSlug, setSavedSlug] = useState<string | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("eid-payment-info");
-    const slug = localStorage.getItem("eid-payment-slug");
     if (saved) {
       setPaymentInfo(JSON.parse(saved));
     }
-    if (slug) {
-      setSavedSlug(slug);
-    }
   }, []);
 
-  const handleSavePaymentInfo = async (info: PaymentInfo) => {
+  const handleSavePaymentInfo = (info: PaymentInfo) => {
     setPaymentInfo(info);
     localStorage.setItem("eid-payment-info", JSON.stringify(info));
-    // Clear saved slug so a new one will be generated on share
-    localStorage.removeItem("eid-payment-slug");
-    setSavedSlug(null);
     setShowSettings(false);
   };
 
+  const copyToClipboard = async (text: string) => {
+    // Try modern clipboard API first
+    if (navigator.clipboard && document.hasFocus()) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        // Fall through to fallback
+      }
+    }
+    
+    // Fallback for older browsers or when document is not focused
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    textArea.style.top = "-9999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      document.execCommand("copy");
+      return true;
+    } catch {
+      return false;
+    } finally {
+      document.body.removeChild(textArea);
+    }
+  };
+
   const handleShareLink = async () => {
+    if (isSharing) return;
+    
     setIsSharing(true);
     
     try {
-      // Save to Supabase and get the slug
-      const response = await fetch("/api/payment-profile", {
+      // Create short link via API
+      const response = await fetch("/api/short-link", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ownerName: paymentInfo.ownerName,
           bkash: paymentInfo.bkash,
           nagad: paymentInfo.nagad,
           rocket: paymentInfo.rocket,
+          upay: paymentInfo.upay,
+          ownerName: paymentInfo.ownerName,
           bkashQR: paymentInfo.bkashQR,
           nagadQR: paymentInfo.nagadQR,
           rocketQR: paymentInfo.rocketQR,
+          upayQR: paymentInfo.upayQR,
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to save profile");
+        throw new Error("Failed to create short link");
       }
 
-      const data = await response.json();
-      const slug = data.slug;
+      const { code } = await response.json();
+      const shareUrl = `${window.location.origin}/${code}`;
       
-      // Save slug locally
-      localStorage.setItem("eid-payment-slug", slug);
-      setSavedSlug(slug);
-      
-      // Create shareable link
-      const shareUrl = `${window.location.origin}/p/${slug}`;
-      
-      await navigator.clipboard.writeText(shareUrl);
+      await copyToClipboard(shareUrl);
       setLinkCopied(true);
       setTimeout(() => setLinkCopied(false), 2000);
     } catch (error) {
-      console.error("Failed to share:", error);
-      // Fallback to old method if Supabase fails
-      const shareData = {
-        bkash: paymentInfo.bkash,
-        nagad: paymentInfo.nagad,
-        rocket: paymentInfo.rocket,
-        name: paymentInfo.ownerName,
-      };
-      const encodedData = btoa(encodeURIComponent(JSON.stringify(shareData)));
-      const shareUrl = `${window.location.origin}?data=${encodedData}`;
-      
-      try {
-        await navigator.clipboard.writeText(shareUrl);
-        setLinkCopied(true);
-        setTimeout(() => setLinkCopied(false), 2000);
-      } catch {
-        const textArea = document.createElement("textarea");
-        textArea.value = shareUrl;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textArea);
-        setLinkCopied(true);
-        setTimeout(() => setLinkCopied(false), 2000);
-      }
+      console.error("Error creating short link:", error);
+      alert("শেয়ার লিংক তৈরি করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
     } finally {
       setIsSharing(false);
     }
   };
 
-  // Load shared data from URL on mount (for backwards compatibility)
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const data = params.get("data");
-    if (data) {
-      try {
-        const decoded = JSON.parse(decodeURIComponent(atob(data)));
-        if (decoded.bkash && decoded.nagad && decoded.rocket && decoded.name) {
-          setPaymentInfo({
-            bkash: decoded.bkash,
-            nagad: decoded.nagad,
-            rocket: decoded.rocket,
-            ownerName: decoded.name,
-          });
-        }
-      } catch {
-        console.error("Failed to parse shared data");
-      }
-    }
-  }, []);
+  
 
   return (
     <main className="relative h-screen overflow-hidden">
@@ -191,8 +170,8 @@ export default function EidPage() {
       )}
 
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 py-5">
-        <div className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center gap-6 md:gap-8 my-5">
+      <div className="relative z-10 flex flex-col items-center h-full px-4 pt-16 pb-8 overflow-y-auto">
+        <div className="w-full max-w-5xl mx-auto flex flex-col items-center gap-4 md:gap-6">
           <EidHero ownerName={paymentInfo.ownerName} />
           <PaymentCards paymentInfo={paymentInfo} />
         </div>

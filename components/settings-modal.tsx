@@ -31,6 +31,7 @@ export function SettingsModal({
   const bkashInputRef = useRef<HTMLInputElement>(null);
   const nagadInputRef = useRef<HTMLInputElement>(null);
   const rocketInputRef = useRef<HTMLInputElement>(null);
+  const upayInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setFormData(paymentInfo);
@@ -41,7 +42,7 @@ export function SettingsModal({
     onSave(formData);
   };
 
-  const handleQRUpload = (e: React.ChangeEvent<HTMLInputElement>, field: 'bkashQR' | 'nagadQR' | 'rocketQR') => {
+  const handleQRUpload = (e: React.ChangeEvent<HTMLInputElement>, field: 'bkashQR' | 'nagadQR' | 'rocketQR' | 'upayQR') => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -52,7 +53,7 @@ export function SettingsModal({
     }
   };
 
-  const removeQR = (field: 'bkashQR' | 'nagadQR' | 'rocketQR') => {
+  const removeQR = (field: 'bkashQR' | 'nagadQR' | 'rocketQR' | 'upayQR') => {
     setFormData({ ...formData, [field]: undefined });
   };
 
@@ -60,6 +61,7 @@ export function SettingsModal({
     { id: 'bkash', name: 'bKash', color: 'from-[#E2136E] to-[#C4105D]', bgColor: 'bg-[#E2136E]/10', borderColor: 'border-[#E2136E]/20', field: 'bkash' as keyof PaymentInfo, qrField: 'bkashQR' as 'bkashQR', inputRef: bkashInputRef },
     { id: 'nagad', name: 'Nagad', color: 'from-[#F6921E] to-[#E07D0C]', bgColor: 'bg-[#F6921E]/10', borderColor: 'border-[#F6921E]/20', field: 'nagad' as keyof PaymentInfo, qrField: 'nagadQR' as 'nagadQR', inputRef: nagadInputRef },
     { id: 'rocket', name: 'Rocket', color: 'from-[#8B3A9B] to-[#6A2B77]', bgColor: 'bg-[#8B3A9B]/10', borderColor: 'border-[#8B3A9B]/20', field: 'rocket' as keyof PaymentInfo, qrField: 'rocketQR' as 'rocketQR', inputRef: rocketInputRef },
+    { id: 'upay', name: 'Upay', color: 'from-[#00A651] to-[#007A3D]', bgColor: 'bg-[#00A651]/10', borderColor: 'border-[#00A651]/20', field: 'upay' as keyof PaymentInfo, qrField: 'upayQR' as 'upayQR', inputRef: upayInputRef },
   ];
 
   return (
