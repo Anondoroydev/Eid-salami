@@ -14,26 +14,31 @@ import type { PaymentInfo } from "@/lib/types";
 
 // Custom Payment Icons
 const BkashIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#E2136E"/>
-    <path d="M15.5 8.5L12 12l3.5 3.5M8.5 8.5L12 12l-3.5 3.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <circle cx="12" cy="12" r="2" fill="white"/>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="800"
+    width="1200"
+    viewBox="-18.0015 -28.3525 156.013 170.115"
+  >
+    <g fill="none">
+      <path fill="#D12053" d="M96.58 62.45l-53.03-8.31 7.03 31.6z" />
+      <path fill="#E2136E" d="M96.58 62.45L56.62 6.93 43.56 54.15z" />
+      <path fill="#D12053" d="M42.32 53.51L.45 0l54.83 6.55z" />
+      <path fill="#9E1638" d="M23.25 31.15L0 9.24h6.12z" />
+      <path fill="#D12053" d="M107.89 35.46l-9.84 26.69L82.1 40.09z" />
+      <path fill="#E2136E" d="M56.77 84.14l38.61-15.51L97 63.7z" />
+      <path fill="#9E1638" d="M25.89 113.41l16.54-58.02 8.39 37.75z" />
+      <path fill="#E2136E" d="M109.43 35.67l-4.06 11.02 14.64-.24z" />
+    </g>
   </svg>
 );
 
 const NagadIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#F6921E"/>
-    <path d="M8 8v8l4-4 4 4V8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
+  <img src="/nagod.svg" alt="Nagad" className={`w-20 h-20 ${className}`} />
 );
 
 const RocketIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#8B3A9B"/>
-    <path d="M12 6l3 5h-2v5h-2v-5H9l3-5z" fill="white"/>
-    <path d="M8 17h8" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-  </svg>
+  <img src="/rocket.svg" alt="Rocket" className={`w-20 h-20 ${className}`} />
 );
 
 interface PaymentCardsProps {
@@ -198,19 +203,19 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
               {/* Card Background */}
               <div className="absolute inset-0 bg-background/40 backdrop-blur-xl" />
               <div className={`absolute inset-0 bg-gradient-to-br ${method.bgGradient}`} />
-              
+
               {/* Animated Border */}
               <div className={`absolute inset-0 rounded-3xl border-2 ${method.borderColor} group-hover:border-opacity-60 transition-all duration-500`} />
-              
+
               {/* Glow Effect on Hover */}
-              <div 
+              <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{ boxShadow: `inset 0 0 80px ${method.glowColor}` }}
               />
 
               {/* Floating Corner Decoration */}
               <div className={`absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br ${method.color} rounded-full opacity-20 blur-2xl group-hover:opacity-40 transition-opacity duration-500`} />
-              
+
               {/* Content */}
               <div className="relative z-10 p-6">
                 {/* Center Icon with Glow */}
@@ -263,8 +268,8 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
       </div>
 
       {/* Payment Instructions Modal - Clean Design */}
-      <Dialog 
-        open={instructionModal.open} 
+      <Dialog
+        open={instructionModal.open}
         onOpenChange={(open) => setInstructionModal({ open, method: open ? instructionModal.method : null })}
       >
         <DialogContent className="bg-background/70 backdrop-blur-2xl border-border/30 max-w-md p-0 overflow-hidden rounded-3xl animate-scale-in shadow-2xl">
@@ -273,7 +278,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
               {/* Header with animated decorations */}
               <div className={`bg-gradient-to-r ${instructionModal.method.color}/90 p-6 relative overflow-hidden animate-slide-down backdrop-blur-sm`}>
                 <div className="absolute inset-0 bg-black/5" />
-                
+
                 {/* Animated floating decorations */}
                 <div className="absolute top-2 left-4 animate-float-gentle">
                   <Star className="h-4 w-4 text-white/40 fill-white/40" />
@@ -289,7 +294,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                 </div>
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 animate-breathe" />
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2 animate-breathe delay-700" />
-                
+
                 <DialogHeader className="relative z-10">
                   <DialogTitle className="text-white text-center flex flex-col items-center gap-3">
                     <div className="w-20 h-20 rounded-2xl bg-white flex items-center justify-center animate-scale-pulse p-3 shadow-xl">
@@ -305,7 +310,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                   </DialogDescription>
                 </DialogHeader>
               </div>
-              
+
               <div className="p-6 space-y-5 relative bg-background/40 backdrop-blur-md">
                 {/* Background animated decorations */}
                 <div className="absolute top-4 right-4 opacity-10 animate-spin-slow">
@@ -314,7 +319,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                 <div className="absolute bottom-20 left-2 opacity-10 animate-float-gentle">
                   <Star className={`h-8 w-8 ${instructionModal.method.textColor} fill-current`} />
                 </div>
-                
+
                 {/* Steps */}
                 <div className="space-y-3 opacity-0 animate-slide-up fill-forwards relative z-10" style={{ animationDelay: "0.15s" }}>
                   <h5 className="font-bold text-foreground text-sm flex items-center gap-2">
@@ -323,8 +328,8 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                   </h5>
                   <ol className="space-y-2">
                     {instructionModal.method.steps.map((step, index) => (
-                      <li 
-                        key={index} 
+                      <li
+                        key={index}
                         className="flex items-start gap-3 opacity-0 animate-slide-up fill-forwards hover:translate-x-1 transition-transform duration-300"
                         style={{ animationDelay: `${0.2 + index * 0.08}s` }}
                       >
@@ -346,9 +351,9 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                   <div className="absolute bottom-2 left-2 animate-twinkle-star delay-500">
                     <Star className={`h-2 w-2 ${instructionModal.method.textColor} opacity-30`} />
                   </div>
-                  
+
                   <p className="text-xs text-foreground/60 mb-3 text-center font-medium">ট্যাপ করে নম্বর কপি করুন</p>
-                  <button 
+                  <button
                     onClick={() => copyToClipboard(getNumber(instructionModal.method!.id), `modal-${instructionModal.method!.id}`)}
                     className={`w-full flex items-center justify-center gap-4 bg-background/40 hover:bg-background/60 backdrop-blur-sm rounded-xl p-4 transition-all duration-300 active:scale-[0.98] border ${instructionModal.method.borderColor}`}
                   >
@@ -378,12 +383,12 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                     <div className="absolute top-3 right-3 animate-float-gentle delay-300">
                       <Star className={`h-3 w-3 ${instructionModal.method.textColor} opacity-30 fill-current`} />
                     </div>
-                    
+
                     <p className="text-xs text-foreground/60 mb-4 font-medium">অথবা QR কোড স্ক্যান করুন</p>
                     <div className="relative">
                       <div className={`absolute inset-[-8px] bg-gradient-to-r ${instructionModal.method.color} rounded-2xl opacity-30 blur-xl animate-breathe`} />
-                      <img 
-                        src={getQRCode(instructionModal.method.id)} 
+                      <img
+                        src={getQRCode(instructionModal.method.id)}
                         alt={`${instructionModal.method.name} QR Code`}
                         className="relative w-36 h-36 object-contain rounded-xl border-2 border-border bg-white p-2 shadow-xl"
                       />
@@ -434,10 +439,10 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
 
           {/* Header Gradient with animation */}
           <div className="h-2 w-full bg-gradient-to-r from-primary via-accent to-primary animate-gradient bg-[length:200%_100%]" />
-          
+
           <div className="px-8 py-10 space-y-6 relative z-10">
             {/* Close Button */}
-            <button 
+            <button
               onClick={() => setShowThankYou(false)}
               className="absolute right-4 top-4 rounded-full p-2 bg-background/50 hover:bg-background hover:scale-110 transition-all z-50"
             >
