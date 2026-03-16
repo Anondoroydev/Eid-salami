@@ -39,7 +39,7 @@ const RocketIcon = ({ className }: { className?: string }) => (
 const UpayIcon = ({ className }: { className?: string }) => (
   <img src="upay.svg" alt="Upay" className={className} />
 );
- 
+
 interface PaymentCardsProps {
   paymentInfo: PaymentInfo;
 }
@@ -120,45 +120,7 @@ const paymentMethods = [
       "আপনার ইচ্ছামত পরিমাণ টাকা দিন",
       "PIN দিয়ে কনফার্ম করুন",
     ],
-  },
-  {
-    id: "upay",
-    name: "উপায়",
-    color: "from-[#00A651] to-[#007A3D]",
-    bgGradient: "from-[#00A651]/15 via-[#00A651]/5 to-transparent",
-    textColor: "text-[#00A651]",
-    borderColor: "border-[#00A651]/30",
-    glowColor: "rgba(0, 166, 81, 0.4)",
-    shadowColor: "shadow-[#00A651]/20",
-    logo: "Upay",
-    IconComponent: UpayIcon,
-    steps: [
-      "আপনার Upay অ্যাপ ওপেন করুন",
-      "\"সেন্ড মানি\" অপশনে ট্যাপ করুন",
-      "নিচের নম্বরটি দিন অথবা QR কোড স্ক্যান করুন",
-      "আপনার ইচ্ছামত পরিমাণ টাকা দিন",
-      "PIN দিয়ে কনফার্ম করুন"
-    ]
-  },
-  {
-    id: "upay",
-    name: "উপায়",
-    color: "from-[#00A651] to-[#007A3D]",
-    bgGradient: "from-[#00A651]/15 via-[#00A651]/5 to-transparent",
-    textColor: "text-[#00A651]",
-    borderColor: "border-[#00A651]/30",
-    glowColor: "rgba(0, 166, 81, 0.4)",
-    shadowColor: "shadow-[#00A651]/20",
-    logo: "Upay",
-    IconComponent: UpayIcon,
-    steps: [
-      "আপনার Upay অ্যাপ ওপেন করুন",
-      "\"সেন্ড মানি\" অপশনে ট্যাপ করুন",
-      "নিচের নম্বরটি দিন অথবা QR কোড স্ক্যান করুন",
-      "আপনার ইচ্ছামত পরিমাণ টাকা দিন",
-      "PIN দিয়ে কনফার্ম করুন"
-    ]
-  },
+  }, 
 ];
 
 interface Confetti {
