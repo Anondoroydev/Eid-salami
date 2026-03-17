@@ -46,7 +46,7 @@ interface PaymentCardsProps {
   paymentInfo: PaymentInfo;
 }
 
-const paymentMethods =[
+const paymentMethods = [
   {
     id: "bkash",
     name: "বিকাশ",
@@ -58,7 +58,7 @@ const paymentMethods =[
     shadowColor: "shadow-[#E2136E]/20",
     logo: "bKash",
     IconComponent: BkashIcon,
-    steps:[
+    steps: [
       "আপনার bKash অ্যাপ ওপেন করুন",
       '"সেন্ড মানি" অপশনে ট্যাপ করুন',
       "নিচের নম্বরটি দিন অথবা QR কোড স্ক্যান করুন",
@@ -77,7 +77,7 @@ const paymentMethods =[
     shadowColor: "shadow-[#F6921E]/20",
     logo: "Nagad",
     IconComponent: NagadIcon,
-    steps:[
+    steps: [
       "আপনার Nagad অ্যাপ ওপেন করুন",
       '"সেন্ড মানি" অপশনে ট্যাপ করুন',
       "নিচের নম্বরটি দিন অথবা QR কোড স্ক্যান করুন",
@@ -96,7 +96,7 @@ const paymentMethods =[
     shadowColor: "shadow-[#8B3A9B]/20",
     logo: "Rocket",
     IconComponent: RocketIcon,
-    steps:[
+    steps: [
       "আপনার Rocket অ্যাপ ওপেন করুন",
       '"সেন্ড মানি" অপশনে ট্যাপ করুন',
       "নিচের নম্বরটি দিন অথবা QR কোড স্ক্যান করুন",
@@ -115,7 +115,7 @@ const paymentMethods =[
     shadowColor: "shadow-[#00A651]/20",
     logo: "Upay",
     IconComponent: UpayIcon,
-    steps:[
+    steps: [
       "আপনার Upay অ্যাপ ওপেন করুন",
       '"সেন্ড মানি" অপশনে ট্যাপ করুন',
       "নিচের নম্বরটি দিন অথবা QR কোড স্ক্যান করুন",
@@ -134,17 +134,17 @@ interface Confetti {
 }
 
 export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
-  const[instructionModal, setInstructionModal] = useState<{
+  const [instructionModal, setInstructionModal] = useState<{
     open: boolean;
     method: (typeof paymentMethods)[0] | null;
   }>({ open: false, method: null });
-  const[showThankYou, setShowThankYou] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
   const [confetti, setConfetti] = useState<Confetti[]>([]);
   const [mounted, setMounted] = useState(false);
-  const[copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // স্লাইডারের জন্য স্টেট
-  const[displayCards, setDisplayCards] = useState([
+  const [displayCards, setDisplayCards] = useState([
     ...paymentMethods,
     ...paymentMethods,
     ...paymentMethods,
@@ -166,11 +166,11 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
 
   useEffect(() => {
     setMounted(true);
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (showThankYou) {
-      const colors =[
+      const colors = [
         "#D4AF37",
         "#10B981",
         "#E2136E",
@@ -178,7 +178,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
         "#8B3A9B",
         "#ffffff",
       ];
-      const newConfetti: Confetti[] =[];
+      const newConfetti: Confetti[] = [];
       for (let i = 0; i < 60; i++) {
         newConfetti.push({
           id: i,
@@ -190,7 +190,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
       }
       setConfetti(newConfetti);
     }
-  },[showThankYou]);
+  }, [showThankYou]);
 
   // Infinite Scroll Handler (শেষের দিকে আসলে নতুন কার্ড যুক্ত করবে)
   const handleScroll = () => {
@@ -297,18 +297,20 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
           <ChevronLeft className="w-6 h-6" />
         </button>
 
-        {/* Scrollable Area */}
+        {/* Scrollable Area - Scrollbar Hidden */}
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex gap-4 lg:gap-6 overflow-x-auto snap-x snap-mandatory px-4 md:px-2 pb-8 pt-4 [&::-webkit-scrollbar]:hidden[-ms-overflow-style:'none'][scrollbar-width:'none'] scroll-smooth"
+          className="flex gap-4 lg:gap-6 overflow-x-auto snap-x snap-mandatory px-4 md:px-2 pb-8 pt-4 scroll-smooth [&::-webkit-scrollbar]:hidden[-ms-overflow-style:none] [scrollbar-width:none]"
         >
           {displayCards.map((method, index) => (
             <div
               key={`${method.id}-${index}`}
               className={`w-[85vw] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-16px)] flex-shrink-0 snap-center opacity-0 animate-slide-up fill-forwards`}
               style={{
-                animationDelay: mounted ? `${0.7 + (index < 4 ? index * 0.15 : 0)}s` : "0s",
+                animationDelay: mounted
+                  ? `${0.7 + (index < 4 ? index * 0.15 : 0)}s`
+                  : "0s",
               }}
             >
               <div
@@ -413,7 +415,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
         </button>
       </div>
 
-      {/* Payment Instructions Modal */}
+      {/* Payment Instructions Modal - Scrollbar Hidden */}
       <Dialog
         open={instructionModal.open}
         onOpenChange={(open) =>
@@ -423,7 +425,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
           })
         }
       >
-        <DialogContent className="bg-background/70 backdrop-blur-2xl border-border/30 w-[calc(100%-2rem)] sm:w-full sm:max-w-md max-h-[90vh] overflow-y-auto[&::-webkit-scrollbar]:hidden[-ms-overflow-style:'none'][scrollbar-width:'none'] p-0 rounded-2xl md:rounded-3xl animate-scale-in shadow-2xl">
+        <DialogContent className="bg-background/70 backdrop-blur-2xl border-border/30 w-[calc(100%-2rem)] sm:w-full sm:max-w-md max-h-[90vh] overflow-y-auto p-0 rounded-2xl md:rounded-3xl animate-scale-in shadow-2xl[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {instructionModal.method && (
             <>
               {/* Header with animated decorations */}
@@ -477,7 +479,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                   />
                 </div>
 
-                {/* Steps (Made compact and smaller) */}
+                {/* Steps */}
                 <div
                   className="space-y-2 opacity-0 animate-slide-up fill-forwards relative z-10"
                   style={{ animationDelay: "0.15s" }}
@@ -520,7 +522,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                     onClick={() =>
                       copyToClipboard(
                         getNumber(instructionModal.method!.id),
-                        `modal-${instructionModal.method!.id}`
+                        `modal-${instructionModal.method!.id}`,
                       )
                     }
                     className={`w-full flex items-center justify-center gap-3 md:gap-4 bg-background/40 hover:bg-background/60 backdrop-blur-sm rounded-lg md:rounded-xl p-3 md:p-4 transition-all duration-300 active:scale-[0.98] border ${instructionModal.method.borderColor}`}
@@ -584,10 +586,10 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
         </DialogContent>
       </Dialog>
 
-      {/* Thank You Modal */}
+      {/* Thank You Modal - Scrollbar Hidden */}
       <Dialog open={showThankYou} onOpenChange={setShowThankYou}>
         <DialogContent
-          className="bg-background/60 backdrop-blur-2xl border-primary/20 w-[calc(100%-2rem)] sm:w-full sm:max-w-md max-h-[90vh] overflow-y-auto[&::-webkit-scrollbar]:hidden[-ms-overflow-style:'none'][scrollbar-width:'none'] text-center p-0 rounded-2xl md:rounded-3xl[&>button]:hidden animate-scale-in shadow-2xl"
+          className="bg-background/60 backdrop-blur-2xl border-primary/20 w-[calc(100%-2rem)] sm:w-full sm:max-w-md max-h-[90vh] overflow-y-auto text-center p-0 rounded-2xl md:rounded-3xl [&>button]:hidden animate-scale-in shadow-2xl [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none][scrollbar-width:none]"
           aria-describedby="thank-you-description"
         >
           <DialogTitle className="sr-only">ধন্যবাদ</DialogTitle>
