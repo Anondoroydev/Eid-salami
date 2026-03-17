@@ -15,6 +15,7 @@ import {
   Wallet,
   ChevronLeft,
   ChevronRight,
+  Gift,
 } from "lucide-react";
 import {
   Dialog,
@@ -56,13 +57,13 @@ const paymentMethods =[
     borderColor: "border-[#E2136E]/30",
     glowColor: "rgba(226, 19, 110, 0.4)",
     shadowColor: "shadow-[#E2136E]/20",
-    logo: "bKash",
+    logo: "bKash Salami",
     IconComponent: BkashIcon,
     steps:[
       "আপনার bKash অ্যাপ ওপেন করুন",
       '"সেন্ড মানি" অপশনে ট্যাপ করুন',
       "নিচের নম্বরটি দিন অথবা QR স্ক্যান করুন",
-      "ইচ্ছামত পরিমাণ টাকা দিন",
+      "সালামির পরিমাণ ও রেফারেন্স দিন",
       "PIN দিয়ে কনফার্ম করুন",
     ],
   },
@@ -75,13 +76,13 @@ const paymentMethods =[
     borderColor: "border-[#F6921E]/30",
     glowColor: "rgba(246, 146, 30, 0.4)",
     shadowColor: "shadow-[#F6921E]/20",
-    logo: "Nagad",
+    logo: "Nagad Salami",
     IconComponent: NagadIcon,
     steps:[
       "আপনার Nagad অ্যাপ ওপেন করুন",
       '"সেন্ড মানি" অপশনে ট্যাপ করুন',
       "নিচের নম্বরটি দিন অথবা QR স্ক্যান করুন",
-      "ইচ্ছামত পরিমাণ টাকা দিন",
+      "সালামির পরিমাণ দিয়ে এগিয়ে যান",
       "PIN দিয়ে কনফার্ম করুন",
     ],
   },
@@ -94,13 +95,13 @@ const paymentMethods =[
     borderColor: "border-[#8B3A9B]/30",
     glowColor: "rgba(139, 58, 155, 0.4)",
     shadowColor: "shadow-[#8B3A9B]/20",
-    logo: "Rocket",
+    logo: "Rocket Salami",
     IconComponent: RocketIcon,
     steps:[
       "আপনার Rocket অ্যাপ ওপেন করুন",
       '"সেন্ড মানি" অপশনে ট্যাপ করুন',
       "নিচের নম্বরটি দিন অথবা QR স্ক্যান করুন",
-      "ইচ্ছামত পরিমাণ টাকা দিন",
+      "সালামির পরিমাণ দিন",
       "PIN দিয়ে কনফার্ম করুন",
     ],
   },
@@ -113,13 +114,13 @@ const paymentMethods =[
     borderColor: "border-[#00A651]/30",
     glowColor: "rgba(0, 166, 81, 0.4)",
     shadowColor: "shadow-[#00A651]/20",
-    logo: "Upay",
+    logo: "Upay Salami",
     IconComponent: UpayIcon,
     steps:[
       "আপনার Upay অ্যাপ ওপেন করুন",
       '"সেন্ড মানি" অপশনে ট্যাপ করুন',
       "নিচের নম্বরটি দিন অথবা QR স্ক্যান করুন",
-      "ইচ্ছামত পরিমাণ টাকা দিন",
+      "সালামির পরিমাণ দিন",
       "PIN দিয়ে কনফার্ম করুন",
     ],
   },
@@ -257,9 +258,9 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
         <div className="relative inline-block">
           <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 blur-2xl" />
           <div className="relative flex items-center gap-2 md:gap-3 px-4 py-2 md:px-6 md:py-3 bg-background/30 backdrop-blur-xl rounded-2xl border border-primary/20">
-            <Wallet className="h-4 w-4 md:h-5 md:w-5 text-primary animate-pulse-slow" />
+            <Gift className="h-4 w-4 md:h-5 md:w-5 text-primary animate-pulse-slow" />
             <span className="text-xs md:text-base font-bold text-foreground">
-              পেমেন্ট মাধ্যম নির্বাচন করুন
+              সালামি দেওয়ার মাধ্যম নির্বাচন করুন
             </span>
             <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-accent animate-spin-slow" />
           </div>
@@ -333,13 +334,13 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                       </div>
                       <div className={`flex items-center gap-1 md:gap-2 px-2 py-1 md:px-3 md:py-1.5 rounded-full bg-background/50 border ${method.borderColor} text-[9px] md:text-xs font-medium`}>
                         <Heart className={`h-2.5 w-2.5 md:h-3.5 md:w-3.5 ${method.textColor} fill-current`} />
-                        <span className="text-foreground/70">নিরাপদ</span>
+                        <span className="text-foreground/70">ভালোবাসা</span>
                       </div>
                     </div>
                   </div>
 
                   <button className={`flex items-center justify-center gap-2 w-full py-2.5 md:py-4 rounded-xl md:rounded-2xl bg-gradient-to-r ${method.color} text-white text-xs md:text-base font-bold shadow-lg transition-all duration-500 group-hover:gap-3 group-hover:scale-[1.02]`}>
-                    <span>পেমেন্ট করুন</span>
+                    <span>সালামি দিন</span>
                     <ArrowRight className="h-3.5 w-3.5 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </button>
                 </div>
@@ -357,7 +358,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
         </button>
       </div>
 
-      {/* Payment Instructions Modal - Side by Side Layout for Zero Scrolling */}
+      {/* Payment Instructions Modal */}
       <Dialog
         open={instructionModal.open}
         onOpenChange={(open) =>
@@ -379,16 +380,16 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                       <span className="text-lg md:text-2xl font-bold block">
                         {instructionModal.method.name}
                       </span>
-                      <span className="text-white/80 text-[10px] md:text-sm block">দিয়ে ঈদি পাঠান</span>
+                      <span className="text-white/80 text-[10px] md:text-sm block">দিয়ে সালামি পাঠান</span>
                     </div>
                   </DialogTitle>
                   <DialogDescription className="sr-only">
-                    {instructionModal.method.name} দিয়ে পেমেন্ট করার নির্দেশনা
+                    {instructionModal.method.name} দিয়ে সালামি পাঠানোর নির্দেশনা
                   </DialogDescription>
                 </DialogHeader>
               </div>
 
-              {/* Body: Compact Spacing */}
+              {/* Body */}
               <div className="p-4 md:p-5 space-y-3 md:space-y-4 relative bg-background/40 backdrop-blur-md">
 
                 {/* Steps */}
@@ -407,10 +408,8 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                   </ol>
                 </div>
 
-                {/* Number & QR - Side by Side (This eliminates vertical scrolling!) */}
+                {/* Number & QR */}
                 <div className="flex items-stretch gap-2.5 opacity-0 animate-slide-up fill-forwards" style={{ animationDelay: "0.4s" }}>
-
-                  {/* Left: Number Copy Box */}
                   <div className={`flex-1 p-3 rounded-xl border ${instructionModal.method.borderColor} bg-background/30 backdrop-blur-lg flex flex-col justify-center`}>
                     <p className="text-[9px] md:text-xs text-foreground/60 mb-1.5 text-center font-medium">ট্যাপ করে নম্বর কপি করুন</p>
                     <button
@@ -430,7 +429,6 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                     </button>
                   </div>
 
-                  {/* Right: QR Code Box */}
                   {getQRCode(instructionModal.method.id) && (
                     <div className={`w-[90px] md:w-[120px] flex-shrink-0 p-2 rounded-xl border ${instructionModal.method.borderColor} bg-background/30 backdrop-blur-lg flex flex-col items-center justify-center`}>
                       <p className="text-[9px] md:text-xs text-foreground/60 mb-1.5 text-center font-medium">QR স্ক্যান</p>
@@ -445,14 +443,13 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                   )}
                 </div>
 
-                {/* Complete Button */}
                 <Button
                   onClick={handlePaymentComplete}
                   className={`w-full py-4 md:py-5 text-xs md:text-sm font-bold bg-gradient-to-r ${instructionModal.method.color} hover:opacity-90 text-white shadow-lg transition-all active:scale-[0.98] rounded-xl opacity-0 animate-slide-up fill-forwards`}
                   style={{ animationDelay: "0.5s" }}
                 >
                   <Heart className="mr-1.5 h-3.5 w-3.5 md:h-4 md:w-4 animate-heartbeat" />
-                  ঈদি পাঠিয়েছি
+                  সালামি পাঠিয়েছি
                 </Button>
               </div>
             </>
@@ -460,7 +457,7 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
         </DialogContent>
       </Dialog>
 
-      {/* Thank You Modal - Scrollbar Hidden */}
+      {/* Thank You Modal */}
       <Dialog open={showThankYou} onOpenChange={setShowThankYou}>
         <DialogContent
           className="bg-background/60 backdrop-blur-2xl border-primary/20 w-[calc(100%-2rem)] sm:w-full sm:max-w-md p-0 rounded-2xl md:rounded-3xl text-center [&>button]:hidden animate-scale-in shadow-2xl [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none][scrollbar-width:none]"
@@ -506,13 +503,13 @@ export function PaymentCards({ paymentInfo }: PaymentCardsProps) {
                 জাযাকাল্লাহু খাইরান!
               </h2>
               <p className="text-foreground/80 text-xs md:text-sm font-medium opacity-0 animate-slide-up fill-forwards" style={{ animationDelay: "0.3s" }}>
-                আপনার ঈদি পেয়ে খুশি হলাম
+                আপনার সালামি পেয়ে অনেক খুশি হলাম
               </p>
             </div>
 
             <div className="bg-primary/5 rounded-xl p-3 md:p-4 border border-primary/10 opacity-0 animate-slide-up fill-forwards" style={{ animationDelay: "0.4s" }}>
               <p className="text-foreground/70 text-[11px] md:text-sm mb-1 leading-relaxed">
-                আপনার এই ভালোবাসা ও স্নেহ আমাকে অনুপ্রাণিত করেছে।
+                আপনার এই ভালোবাসা ও স্নেহ আমাকে অনেক অনুপ্রাণিত করেছে।
               </p>
               <p className="text-foreground text-xs md:text-sm font-semibold">
                 আল্লাহ আপনাকে উত্তম প্রতিদান দিন।
